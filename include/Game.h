@@ -4,7 +4,10 @@
 #include "./defines.h"
 #include "./Paddle.h"
 #include "./Ball.h"
+#include "./Block.h"
 #include "./Collisions.h"
+
+#include <vector>
 
 class Game {
   public:
@@ -13,10 +16,14 @@ class Game {
     void update(float delta, unsigned char* keyState, unsigned char* prevKeyState);
   protected:
     void drawBorder();
+    void levelSetup();
     int level;
+    bool levelStarted;
 
     Paddle paddle;
     Ball ball;
+    
+    std::vector<Block*> blocks;
 };
 
 #endif

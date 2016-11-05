@@ -5,7 +5,7 @@ Paddle::Paddle() {
   this->y      = SPACE_Y_RESOLUTION/12;
   this->length = GAME_PANEL_WIDTH/10;
   this->height = 10;
-  this->speed  = 150;
+  this->speed  = 300;
   printf("Paddle setup\n");
 }
 
@@ -15,12 +15,12 @@ void Paddle::draw() {
 }
 
 void Paddle::update(float delta, unsigned char* keyState, unsigned char* prevKeyState) {
- if( (keyState['d'] || keyState['D']) == BUTTON_DOWN) {
+ if( (keyState['d'] || keyState['D'] || keyState[GLFW_KEY_RIGHT]) == BUTTON_DOWN) {
     x += speed * delta;
     if(x > GAME_PANEL_MAX_X-length/2-20)
       x = GAME_PANEL_MAX_X-length/2-20;
   }
-  if( (keyState['a'] || keyState['A']) == BUTTON_DOWN) {
+  if( (keyState['a'] || keyState['A'] || keyState[GLFW_KEY_LEFT]) == BUTTON_DOWN) {
     x -= speed * delta;
     if(x < GAME_PANEL_MIN_X+length/2+20)
       x = GAME_PANEL_MIN_X+length/2+20;

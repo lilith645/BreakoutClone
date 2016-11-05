@@ -2,19 +2,47 @@
 
 Game::Game() {
   level = 1;
+  levelStarted = false;
+  
+  levelSetup();
+  
   printf("Game setup\n");
+}
+
+void Game::levelSetup() {
+  switch(level) {
+    case 1:
+      for(int i = 0; i < 68; ++i) {
+        blocks.push_back(new Block);
+      }
+      for(int i = 0; i < 17; ++i) {
+        blocks[0+i]->setup( (GAME_PANEL_MIN_X+blocks[0+i]->getWidth()/2+15) + (i*(blocks[0+i]->getWidth()+10)), SPACE_Y_RESOLUTION/2, BLUE);
+        blocks[17+i]->setup( (GAME_PANEL_MIN_X+blocks[17+i]->getWidth()/2+15) + (i*(blocks[17+i]->getWidth()+10)), SPACE_Y_RESOLUTION/2-blocks[17+i]->getHeight() - 10, LIGHTBLUE);
+        blocks[34+i]->setup( (GAME_PANEL_MIN_X+blocks[34+i]->getWidth()/2+15) + (i*(blocks[34+i]->getWidth()+10)), SPACE_Y_RESOLUTION/2-(blocks[34+i]->getHeight() - 10)*4, PURPLE);
+        blocks[51+i]->setup( (GAME_PANEL_MIN_X+blocks[51+i]->getWidth()/2+15) + (i*(blocks[51+i]->getWidth()+10)), SPACE_Y_RESOLUTION/2-(blocks[51+i]->getHeight() - 10)*6, RED);
+      }
+      break;
+  }
+  levelStarted = true;
 }
 
 void Game::draw() {
   drawBorder();
   paddle.draw();
   ball.draw();
+  for(unsigned int i = 0; i < blocks.size(); ++i)
+    blocks[i]->draw();
 }
 
 void Game::update(float delta, unsigned char* keyState, unsigned char* prevKeyState) {
   paddle.update(delta, keyState, prevKeyState);
   ball.update(delta, keyState, prevKeyState, paddle.getX());
-  Collisions::detect(&paddle, &ball);
+  Collisions::detect(&paddle, &ball, blocks);
+  
+  for(int i = 0; i < blocks.size(); ++i) {
+    if(!blocks[i]->getVisible())
+      blocks.erase(blocks.begin() + i);
+  }
 }
 
 void Game::drawBorder() {

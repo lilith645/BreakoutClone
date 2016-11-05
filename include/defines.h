@@ -46,6 +46,14 @@
 #define LEFT                   0
 #define RIGHT                  1
 
+#define NOTHING                -1
+#define RED                    0
+#define GREEN                  1
+#define BLUE                   2
+#define YELLOW                 3
+#define LIGHTBLUE              4
+#define PURPLE                 5
+
 // Keys
 #define ESC                    256
 

@@ -3,9 +3,12 @@
 
 #include "./Paddle.h"
 #include "./Ball.h"
+#include "./Block.h"
+
+#include <vector>
 
 namespace Collisions {
-  void detect(Paddle *paddle, Ball *ball);
+  void detect(Paddle *paddle, Ball *ball, std::vector<Block*> blocks);
 }
 
 #endif
