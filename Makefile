@@ -3,7 +3,7 @@ CC = g++
 CFLAGS  = -Wall -g -O3
 PROG = Breakout
 
-SRCS = ./src/main.cpp ./src/Game.cpp ./src/Paddle.cpp
+SRCS = ./src/main.cpp ./src/Game.cpp ./src/Paddle.cpp ./src/Ball.cpp ./src/Random.cpp ./src/Collisions.cpp
 
 LIBS = -lglfw -lGLC -lGLU -lGL -lpng
 

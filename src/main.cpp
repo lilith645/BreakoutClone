@@ -233,7 +233,7 @@ int main(int argc, char* args[]) {
     glLoadIdentity();
     double currentTime = glfwGetTime();
    // printf("Time: %f", currentTime);
-    float deltaTime = float(currentTime - lastTime)  * 50;
+    float deltaTime = float(currentTime - lastTime);
     lastTime = glfwGetTime();
     display(window, deltaTime);  
     

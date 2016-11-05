@@ -4,12 +4,14 @@ Paddle::Paddle() {
   this->x      = SPACE_X_RESOLUTION/2;
   this->y      = SPACE_Y_RESOLUTION/12;
   this->length = GAME_PANEL_WIDTH/10;
-  this->speed  = 5;
+  this->height = 10;
+  this->speed  = 150;
+  printf("Paddle setup\n");
 }
 
 void Paddle::draw() {
   glColor3f(1.0, 1.0, 0.0);
-  drawQuad(x, y, length, 10);
+  drawQuad(x, y, length, height);
 }
 
 void Paddle::update(float delta, unsigned char* keyState, unsigned char* prevKeyState) {

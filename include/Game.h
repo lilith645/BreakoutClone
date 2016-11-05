@@ -3,6 +3,8 @@
 
 #include "./defines.h"
 #include "./Paddle.h"
+#include "./Ball.h"
+#include "./Collisions.h"
 
 class Game {
   public:
@@ -14,6 +16,7 @@ class Game {
     int level;
 
     Paddle paddle;
+    Ball ball;
 };
 
 #endif

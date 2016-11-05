@@ -8,10 +8,13 @@ Game::Game() {
 void Game::draw() {
   drawBorder();
   paddle.draw();
+  ball.draw();
 }
 
 void Game::update(float delta, unsigned char* keyState, unsigned char* prevKeyState) {
   paddle.update(delta, keyState, prevKeyState);
+  ball.update(delta, keyState, prevKeyState, paddle.getX());
+  Collisions::detect(&paddle, &ball);
 }
 
 void Game::drawBorder() {
