@@ -1,9 +1,12 @@
 #include "../include/Game.h"
 
 Game::Game() {
-  level = 1;
-  levelStarted = false;
+  this->level        = 1;
+  this->paused       = false;
+  this->levelStarted = false;
   
+  score = 0;
+ 
   levelSetup();
   
   printf("Game setup\n");
@@ -32,16 +35,29 @@ void Game::draw() {
   ball.draw();
   for(unsigned int i = 0; i < blocks.size(); ++i)
     blocks[i]->draw();
+  
 }
 
 void Game::update(float delta, unsigned char* keyState, unsigned char* prevKeyState) {
-  paddle.update(delta, keyState, prevKeyState);
-  ball.update(delta, keyState, prevKeyState, paddle.getX());
-  Collisions::detect(&paddle, &ball, blocks);
   
-  for(int i = 0; i < blocks.size(); ++i) {
-    if(!blocks[i]->getVisible())
-      blocks.erase(blocks.begin() + i);
+  if( (keyState['p'] || keyState['P']) == BUTTON_DOWN && 
+      (prevKeyState['p'] || prevKeyState['P']) != BUTTON_DOWN) {
+    if(paused) {
+      paused = false;
+    } else {
+      paused = true;
+    }
+  }
+  
+  if(!paused) {
+    paddle.update(delta, keyState, prevKeyState);
+    ball.update(delta, keyState, prevKeyState, paddle.getX());
+    Collisions::detect(&paddle, &ball, blocks);
+  
+    for(unsigned int i = 0; i < blocks.size(); ++i) {
+      if(!blocks[i]->getVisible())
+        blocks.erase(blocks.begin() + i);
+    }
   }
 }
 

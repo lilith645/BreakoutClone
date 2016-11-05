@@ -18,6 +18,8 @@ class Game {
     void drawBorder();
     void levelSetup();
     int level;
+    int score;
+    bool paused;
     bool levelStarted;
 
     Paddle paddle;

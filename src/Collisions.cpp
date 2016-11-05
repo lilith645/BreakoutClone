@@ -21,35 +21,39 @@ void Collisions::detect(Paddle *paddle, Ball *ball, std::vector<Block*> blocks) 
     float Bkh = blocks[i]->getHeight()/2;
     
     // Top side of block collision
-    if( (By-Br > Bky+Bkh && By-Br < Bky+Bkh/2) && 
-      ( (Bx+Br < Bkx+Bkw/2 && Bx+Br > Bkx-Bkw/2) ||
-      (Bx-Br < Bkx+Bkw/2 && Bx-Br > Bkx-Bkw/2) ) ) {
+    if( (By-Br < Bky+Bkh && By-Br > Bky+Bkh/4) && 
+      ( (Bx+Br < Bkx+Bkw && Bx+Br > Bkx-Bkw) ||
+      (Bx-Br < Bkx+Bkw && Bx-Br > Bkx-Bkw) ) ) {
       ball->setDirectionUp(); 
       blocks[i]->setVisible(false);
-    }
+      break;
+    } else
     
     // Right side of block collision
-    if( (Bx-Br < Bkx+Bkw && Bx-Br > Bkx+Bkw/2) &&
-      ( By+Br > Bky-Bkh && By+Br < Bky+Bkh ||
-        By-Br > Bky-Bkh && By-Br < Bky+Bkh) ) {
+    if( (Bx-Br < Bkx+Bkw && Bx-Br > Bkx+Bkw/4) &&
+      ( (By+Br > Bky-Bkh/2 && By+Br < Bky+Bkh/2) ||
+        (By-Br > Bky-Bkh/2 && By-Br < Bky+Bkh/2)) ) {
       ball->setDirectionRight(); 
       blocks[i]->setVisible(false);
-    }
+      break;
+    } else
     
     // Left side of block collision
-    if( (Bx+Br > Bkx-Bkw && Bx+Br < Bkx-Bkw/2) &&
-      ( By+Br > Bky-Bkh && By+Br < Bky+Bkh ||
-        By-Br > Bky-Bkh && By-Br < Bky+Bkh) ) {
+    if( (Bx+Br > Bkx-Bkw && Bx+Br < Bkx-Bkw/4) &&
+      ( (By+Br > Bky-Bkh/2 && By+Br < Bky+Bkh/2) ||
+        (By-Br > Bky-Bkh/2 && By-Br < Bky+Bkh/2)) ) {
       ball->setDirectionLeft(); 
       blocks[i]->setVisible(false);
-    }
+      break;
+    } else
     
     // bottom side of block collision
-    if( (By+Br > Bky-Bkh && By+Br < Bky-Bkh/2) && 
-      ( (Bx+Br < Bkx+Bkw/2 && Bx+Br > Bkx-Bkw/2) ||
-      (Bx-Br < Bkx+Bkw/2 && Bx-Br > Bkx-Bkw/2) ) ) {
+    if( (By+Br > Bky-Bkh && By+Br < Bky-Bkh/4) && 
+      ( (Bx+Br < Bkx+Bkw && Bx+Br > Bkx-Bkw) ||
+      (Bx-Br < Bkx+Bkw && Bx-Br > Bkx-Bkw) ) ) {
       ball->setDirectionDown(); 
       blocks[i]->setVisible(false);
+      break;
     }
   }  
 }

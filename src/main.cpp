@@ -154,6 +154,8 @@ void display(GLFWwindow* window, float deltaTime) {
   prevKeyState['A'] = keyState['A'];
   prevKeyState['d'] = keyState['d'];
   prevKeyState['D'] = keyState['D'];
+  prevKeyState['p'] = keyState['p'];
+  prevKeyState['P'] = keyState['P'];
   
   glEnable (GL_BLEND);
   glBlendFunc (GL_ONE, GL_ONE);
