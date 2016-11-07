@@ -3,12 +3,15 @@
 
 #include "./defines.h"
 #include "./Random.h"
+#include "./LoadTexture.h"
 
 class Ball {
   public:
     Ball();
     void draw();
     void update(float delta, unsigned char* keyState, unsigned char* prevKeyState, float Px);
+    
+    void reset();
     
     void reverseYDirection() { dirY *= -1; }
     void reverseXDirection() { dirX *= -1; }
@@ -17,11 +20,13 @@ class Ball {
     void setDirectionRight() { if(dirX < 0 ) dirX *= -1; }
     void setDirectionLeft() { if(dirX > 0 ) dirX *= -1; }
     
+    void setVisible(bool visible) { this->visible = visible; }
+    
     float getX() { return x; }
     float getY() { return y; }
     float getRadius() { return radius; }
-  protected:
-    void reset();
+    bool getVisible() { return visible; }
+  protected:    
     float x, y;
     float speed;
     float radius;
@@ -29,7 +34,11 @@ class Ball {
     float dirX, dirY;
     float startTimer;
     
+    bool visible;
+    
     Random boostRand;
+    
+    GLuint texture;
 };
 
 #endif

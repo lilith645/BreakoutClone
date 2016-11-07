@@ -16,6 +16,8 @@ Ball::Ball() {
   this->y          = GAME_PANEL_HEIGHT/12 + radius*2;
   this->angle      = 0;
   this->startTimer = 0;
+  this->visible    = true;
+  this->texture    = txt::LoadTexture("./Textures/Ball.png");
   
   printf("Ball setup\n");
 }
@@ -33,11 +35,19 @@ void Ball::reset() {
   y = GAME_PANEL_HEIGHT/12 + radius*2;
   if(speed < 0)
     speed *= -1;
+  
+  visible = true;
 }
 
 void Ball::draw() {
-  glColor3f(1.0, 0.0, 1.0);
-  drawQuad(x, y, radius, radius);
+  glEnable(GL_TEXTURE_2D);
+  glColor3f(1.0, 1.0, 1.0);
+  
+  if(visible) {
+    glBindTexture(GL_TEXTURE_2D, texture);
+    drawQuad(x, y, radius, radius);  
+  }
+  glDisable(GL_TEXTURE_2D);
 }
 
 void Ball::update(float delta, unsigned char* keyState, unsigned char* prevKeyState, float Px) {
@@ -71,5 +81,5 @@ void Ball::update(float delta, unsigned char* keyState, unsigned char* prevKeySt
   }
   
   if(y < 0)
-    reset();
+    visible = false;//reset();
 }
