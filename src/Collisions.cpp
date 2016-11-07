@@ -1,25 +1,5 @@
 #include "../include/Collisions.h"
 
-int Collisions::intersects(float Cx, float Cy, float Cr, float Rx, float Ry, float Rw, float Rh)
-{
-    float Cdistancex = abs(Cx - Rx);
-    float Cdistancey = abs(Cy - Ry);
-
-    if (Cdistancex > (Rw/2 + Cr)) { return -1; }
-    if (Cdistancey > (Rh/2 + Cr)) { return -1; }
-
-    if (Cdistancex <= (Rw/2)) { return 0; } 
-    if (Cdistancey <= (Rh/2)) { return 1; }
-
-    float cornerDistance_sq = (Cdistancex - Rw/2)*(Cdistancex - Rw/2) +
-                         (Cdistancey - Rh/2)*(Cdistancey - Rh/2);
-
-    if (cornerDistance_sq <= (Cr*Cr)) {
-      return 2;
-    }
-    return -1;
-}
-
 float Collisions::magnitude( Pos b, Pos a ) {
   Pos Vector;
 
