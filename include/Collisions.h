@@ -13,6 +13,7 @@ namespace Collisions {
   
   float magnitude( Pos b, Pos a );
   bool intersectCircle(Pos c, float r, Pos a, Pos b);
+  Pos GetIntersection(Pos c, float r, Pos a, Pos b);
 }
 
 #endif

@@ -3,7 +3,7 @@
 Ball::Ball() {
   boostRand.newSeed(time(NULL));
   
-  float diffx = boostRand.Int(0, GAME_PANEL_MAX_X) - x;
+  float diffx = 0; //boostRand.Int(0, GAME_PANEL_MAX_X) - x;
   float diffy = boostRand.Int(GAME_PANEL_HEIGHT/2, GAME_PANEL_HEIGHT) - y;
 
   float distance = pow(pow(diffy,2.0f) + pow(diffx,2.0f), 0.5f);
@@ -48,6 +48,14 @@ void Ball::draw() {
     drawQuad(x, y, radius, radius);  
   }
   glDisable(GL_TEXTURE_2D);
+}
+
+    
+void Ball::setDirection(Pos diff) { 
+  float distance = pow(pow(diff.y,2.0f) + pow(diff.x,2.0f), 0.5f);
+  
+  this->dirX = (diff.x) / (distance);
+  this->dirY = (diff.y) / distance;  
 }
 
 void Ball::update(float delta, unsigned char* keyState, unsigned char* prevKeyState, float Px) {

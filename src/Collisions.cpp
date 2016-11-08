@@ -9,28 +9,45 @@ float Collisions::magnitude( Pos b, Pos a ) {
   return (float)sqrt( Vector.x * Vector.x + Vector.y * Vector.y );
 }
 
-bool Collisions::intersectCircle(Pos c, float r, Pos a, Pos b) {
-    float lineMagnitude;
-    float u;
-    Pos Intersection;
+Pos Collisions::GetIntersection(Pos c, float r, Pos a, Pos b) {
+  float lineMagnitude;
+  float u;
+  Pos Intersection;
  
-    lineMagnitude = magnitude( b, a );
+  lineMagnitude = magnitude( b, a );
  
-    u = ( ( ( c.x - a.x ) * ( b.x - a.x ) ) +
-        ( ( c.y - a.y ) * ( b.y - a.y ) ) ) /
-        ( lineMagnitude * lineMagnitude );
+  u = ( ( ( c.x - a.x ) * ( b.x - a.x ) ) +
+      ( ( c.y - a.y ) * ( b.y - a.y ) ) ) /
+      ( lineMagnitude * lineMagnitude );
  
-    if( u < 0.0f || u > 1.0f )
-        return false;   // closest point does not fall within the line segment
- 
-    Intersection.x = a.x + u * ( b.x - a.x );
-    Intersection.y = a.y + u * ( b.y - a.y );
+  Intersection.x = a.x + u * ( b.x - a.x );
+  Intersection.y = a.y + u * ( b.y - a.y );
     
-    float Distance = magnitude( c, Intersection );
-    if(Distance > r)
-      return false;      
+  return Intersection;
+}
+
+bool Collisions::intersectCircle(Pos c, float r, Pos a, Pos b) {
+  float lineMagnitude;
+  float u;
+  Pos Intersection;
+ 
+  lineMagnitude = magnitude( b, a );
+ 
+  u = ( ( ( c.x - a.x ) * ( b.x - a.x ) ) +
+      ( ( c.y - a.y ) * ( b.y - a.y ) ) ) /
+      ( lineMagnitude * lineMagnitude );
+ 
+  if( u < 0.0f || u > 1.0f )
+    return false;   // closest point does not fall within the line segment
+ 
+  Intersection.x = a.x + u * ( b.x - a.x );
+  Intersection.y = a.y + u * ( b.y - a.y );
+    
+  float Distance = magnitude( c, Intersection );
+  if(Distance > r)
+    return false;      
       
-    return true;
+  return true;
 }
 
 void Collisions::detect(Paddle *paddle, Ball *ball, std::vector<Block*> blocks) {
@@ -51,8 +68,10 @@ void Collisions::detect(Paddle *paddle, Ball *ball, std::vector<Block*> blocks) 
   } */
   // Ball hits paddle
   if(intersectCircle(pBall, Br, pPaddleA, pPaddleB)) {
-    if(ball->getY() > paddle->getY()+paddle->getHeight()/2)
-      ball->setDirectionUp();
+    if(ball->getY() > paddle->getY()+paddle->getHeight()/2) {
+      
+      ball->setDirection(paddle->getDirection(GetIntersection(pBall, Br, pPaddleA, pPaddleB)));
+    }
   }
   
   bool hasCollided = false; 
@@ -78,20 +97,51 @@ void Collisions::detect(Paddle *paddle, Ball *ball, std::vector<Block*> blocks) 
     if(intersectCircle(pBall, Br, BpA, BpB)) {
       ball->setDirectionUp();
       hasCollided = true;
-    } 
-        // Right side
-    if(intersectCircle(pBall, Br, BpB, BpC)) {
-      ball->setDirectionRight();
-      hasCollided = true;
-    } 
-    
+    } else    
     //Bottom side
     if(intersectCircle(pBall, Br, BpC, BpD)) {
       ball->setDirectionDown();
       hasCollided = true;
     } 
+    
+    // Right side
+    if(intersectCircle(pBall, Br, BpB, BpC)) {
+      // Check if is colliding with another block
+      if(i != blocks.size()-1) {
+        Pos BpE;
+        Pos BpF;
+        
+        BpE.x = blocks[i+1]->getX() - blocks[i+1]->getWidth()/2;
+        BpE.y = blocks[i+1]->getY() + blocks[i+1]->getHeight()/2;
+    
+        BpF.x = blocks[i+1]->getX() - blocks[i+1]->getWidth()/2;
+        BpF.y = blocks[i+1]->getY() - blocks[i+1]->getHeight()/2;
+        
+        if (intersectCircle(pBall, Br, BpE, BpF)) {
+          ball->setDirectionDown();
+        }
+      }
+       
+      ball->setDirectionRight();
+      hasCollided = true;
+    } else
     // Left side
     if(intersectCircle(pBall, Br, BpD, BpA)) {
+          // Check if is colliding with another block
+      if(i != blocks.size()-1) {
+        Pos BpE;
+        Pos BpF;
+        
+        BpE.x = blocks[i+1]->getX() + blocks[i+1]->getWidth()/2;
+        BpE.y = blocks[i+1]->getY() + blocks[i+1]->getHeight()/2;
+    
+        BpF.x = blocks[i+1]->getX() + blocks[i+1]->getWidth()/2;
+        BpF.y = blocks[i+1]->getY() - blocks[i+1]->getHeight()/2;
+        
+        if (intersectCircle(pBall, Br, BpE, BpF)) {
+          ball->setDirectionDown();
+        }
+      }
       ball->setDirectionLeft();
       hasCollided = true;
     } 

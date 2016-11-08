@@ -4,6 +4,7 @@
 #include "./defines.h"
 #include "./Random.h"
 #include "./LoadTexture.h"
+#include "./Pos.h"
 
 class Ball {
   public:
@@ -15,6 +16,9 @@ class Ball {
     
     void reverseYDirection() { dirY *= -1; }
     void reverseXDirection() { dirX *= -1; }
+    
+    void setDirection(Pos dir);
+    
     void setDirectionDown() { if(dirY > 0 ) dirY *= -1; }
     void setDirectionUp() { if(dirY < 0 ) dirY *= -1; }
     void setDirectionRight() { if(dirX < 0 ) dirX *= -1; }
